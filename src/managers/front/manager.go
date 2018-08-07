@@ -1,4 +1,4 @@
-package managers
+package front
 
 import (
 	"github.com/jroimartin/gocui"
