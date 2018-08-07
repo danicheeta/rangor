@@ -2,20 +2,25 @@ package managers
 
 import (
 	"github.com/jroimartin/gocui"
-	"fmt"
 	"os/exec"
 )
 
 func Manager(g *gocui.Gui) error {
-	x, y := g.Size()
-	if v, err := g.SetView("hello", 2, 2, x - 2, y - 2); err != nil {
-		if err != gocui.ErrUnknownView {
-			return err
-		}
-
-		data := getls()
-		fmt.Fprintln(v, string(data))
+	maxX, maxY := g.Size()
+	v, err := g.SetView("colors", 2, 2, maxX -2, maxY - 2)
+	if err != gocui.ErrUnknownView {
+		return err
 	}
+
+	v.Highlight = true
+	v.SelBgColor = gocui.ColorBlack
+	v.SelFgColor = gocui.ColorWhite
+
+	_, err = v.Write(getls())
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
