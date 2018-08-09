@@ -1,26 +1,25 @@
-package front
+package right
 
 import (
 	"github.com/jroimartin/gocui"
 	"os/exec"
+	"github.com/danicheeta/ranger/src/bindings"
 )
-
-var CurrentPath = "/home/daniel/"
 
 func Manager(g *gocui.Gui) error {
 	x, y := g.Size()
-
-	v, err := g.SetView("ls", (x / 5) + 2, 2, (x * 4 / 5) - 2, y - 2)
+	v, err := g.SetView("right", (x * 4 / 5) - 2, 2, x -2, y - 2)
 	if err != gocui.ErrUnknownView {
 		return err
 	}
-
-	v.Wrap = true
-	v.Highlight = true
+	
 	v.SelBgColor = gocui.ColorBlack
 	v.SelFgColor = gocui.ColorWhite
 
-	_, err = v.Write(getls())
+	lsView, _ := g.View("ls")
+	lsFirstLine := lsView.BufferLines()[0]
+
+	_, err = v.Write(getls(lsFirstLine))
 	if err != nil {
 		return err
 	}
@@ -28,8 +27,8 @@ func Manager(g *gocui.Gui) error {
 	return nil
 }
 
-func getls() []byte {
-	cmd := exec.Command("ls", CurrentPath)
+func getls(s string) []byte {
+	cmd := exec.Command("ls", bindings.CurrentPath + "/" + s)
 	data, err := cmd.Output()
 	if err != nil {
 		panic(err)

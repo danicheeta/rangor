@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/jroimartin/gocui"
 	"github.com/danicheeta/ranger/src/managers"
+	"github.com/danicheeta/ranger/src/bindings"
 )
 
 func main() {
@@ -15,11 +16,13 @@ func main() {
 	g.SetManagerFunc(managers.Manager)
 
 	addExitHandler(g)
+	bindings.AddDefaultBindings(g)
 
 	if err := g.MainLoop(); err != gocui.ErrQuit {
 		println(err)
 	}
 }
+
 
 func addExitHandler(g *gocui.Gui) {
 	exit := func (*gocui.Gui, *gocui.View) error {return gocui.ErrQuit}

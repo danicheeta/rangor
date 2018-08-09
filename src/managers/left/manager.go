@@ -1,26 +1,21 @@
-package front
+package left
 
 import (
 	"github.com/jroimartin/gocui"
 	"os/exec"
 )
 
-var CurrentPath = "/home/daniel/"
-
 func Manager(g *gocui.Gui) error {
 	x, y := g.Size()
-
-	v, err := g.SetView("ls", (x / 5) + 2, 2, (x * 4 / 5) - 2, y - 2)
+	v, err := g.SetView("left", 2, 2, (x / 5) + 2, y - 2)
 	if err != gocui.ErrUnknownView {
 		return err
 	}
 
-	v.Wrap = true
-	v.Highlight = true
 	v.SelBgColor = gocui.ColorBlack
 	v.SelFgColor = gocui.ColorWhite
 
-	_, err = v.Write(getls())
+	_, err = v.Write(getParentLs())
 	if err != nil {
 		return err
 	}
@@ -28,8 +23,8 @@ func Manager(g *gocui.Gui) error {
 	return nil
 }
 
-func getls() []byte {
-	cmd := exec.Command("ls", CurrentPath)
+func getParentLs() []byte {
+	cmd := exec.Command("ls", "..", "-a")
 	data, err := cmd.Output()
 	if err != nil {
 		panic(err)
