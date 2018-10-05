@@ -2,8 +2,7 @@ package main
 
 import (
 	"github.com/jroimartin/gocui"
-	"github.com/danicheeta/ranger/src/managers"
-	"github.com/danicheeta/ranger/src/bindings"
+	"github.com/danicheeta/ranger/bindings"
 )
 
 func main() {
@@ -13,7 +12,7 @@ func main() {
 	}
 	defer g.Close()
 
-	g.SetManagerFunc(managers.Manager)
+	g.SetManagerFunc(Manager)
 
 	addExitHandler(g)
 	bindings.AddDefaultBindings(g)

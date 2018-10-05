@@ -108,7 +108,6 @@ func getlsOut() string {
 	if err != nil {
 		panic("lsout: " + beforePath)
 	}
-	//panic(string(data))
 
 	return string(data)
 }
